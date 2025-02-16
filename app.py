@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 
 ############################################### PAGE SETUP ###########################################
 # 1. Title
-st.title("Annual Return Stock")
+st.title("Annual Return Stock Tracker")
 
 # 2. Header
-st.header("This is a Header")
+st.header("Do you want to beat the S&P500 Index?")
 
 # 3. Subheader
 st.subheader("This is a Subheader")
