@@ -3,21 +3,35 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 ############################################### PAGE SETUP ###########################################
+
+# Set up the page
+st.set_page_config(
+    page_title="Stock Tracker",
+    layout="centered", # or wide. Better centered. 
+    page_icon="📈", 
+    initial_sidebar_state="collapsed" # or expanded
+)
+
+############################################### USER INPUTS ###########################################
 # 1. Title
 st.title("Annual Return Stock Tracker")
 
 # 2. Header
-st.header("Do you want to beat the S&P500 Index?")
+
 
 # 3. Subheader
-st.subheader("This is a Subheader")
+st.subheader("Do you want to beat the S&P500 Index?")
 
-# 4. Text
-st.text("Streamlit makes it easy to create web apps for data science.")
+# 4. Text 
+st.markdown("""
+This app allows you to compare the annual return of a stock from the S&P 500 index with the stock itself. 
+You can select any stock from the S&P 500 and see how its performance compares to the overall index. 
+This comparison can help you understand the stock's growth relative to the market and decide if it's outperforming the index!
+""")
 
 # 5. Selectbox
-symbls = pd.read_csv('info_0_250.csv')
-annual_returns = pd.read_csv('annual_returns.csv')
+symbls = pd.read_csv('plan_yahoo/info_0_500.csv')
+annual_returns = pd.read_csv('plan_kaggle/annual_returns.csv')
 symbols = symbls['symbol'].unique()
 
 # Select Box. 
