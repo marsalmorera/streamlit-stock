@@ -37,6 +37,17 @@ You can select any stock from the S&P 500 and see how its performance compares t
 This comparison can help you understand the stock's growth relative to the market and decide if it's outperforming the index!
 """)
 
+ #################################### METRIC CARDS ###########################################
+
+#FINISH TOMORROW
+
+col1, col2, col3 = st.columns(3)
+
+st.metric("Metric Name", 42, 2)
+
+
+  #################################### Info ###########################################
+
 # 4 Select Box. 
 select_symbol = st.selectbox("Choose a stock for analysis:", symbols)
  
@@ -95,4 +106,3 @@ def annual_return_plot(annual_returns, stock=select_symbol):
 # Automatically update the chart when a different symbol is selected
 if select_symbol:
     annual_return_plot(annual_returns, stock=select_symbol)
-    
