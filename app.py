@@ -1,8 +1,9 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+from utils import load_prices
 
-############################################### PAGE SETUP ###########################################
+############################################# PAGE SETUP ###########################################
 
 # Set up the page
 st.set_page_config(
@@ -12,39 +13,41 @@ st.set_page_config(
     initial_sidebar_state="collapsed" # or expanded
 )
 
-############################################### USER INPUTS ###########################################
+############################################# DATA LOAD #############################################
+
+symbls = pd.read_csv('plan_yahoo/info_0_500.csv')
+annual_returns = pd.read_csv('plan_kaggle/annual_returns.csv')
+extra = pd.read_csv('plan_yahoo/extrainfo.csv')
+symbols = symbls['symbol'].unique()
+pivoted_df = annual_returns.pivot(index='symbol', columns='year', values='annual_return')
+prices_df = load_prices()
+
+############################################# USER INPUTS ###########################################
+
 # 1. Title
 st.title("Annual Return Stock Tracker")
 
-# 2. Header
-
-
-# 3. Subheader
+# 2. Subheader
 st.subheader("Do you want to beat the S&P500 Index?")
 
-# 4. Text 
+# 3. Text 
 st.markdown("""
 This app allows you to compare the annual return of a stock from the S&P 500 index with the stock itself. 
 You can select any stock from the S&P 500 and see how its performance compares to the overall index. 
 This comparison can help you understand the stock's growth relative to the market and decide if it's outperforming the index!
 """)
 
-# 5. Selectbox
-symbls = pd.read_csv('plan_yahoo/info_0_500.csv')
-annual_returns = pd.read_csv('plan_kaggle/annual_returns.csv')
-extra = pd.read_csv('plan_yahoo/extrainfo.csv')
-symbols = symbls['symbol'].unique()
-pivoted_df = annual_returns.pivot(index='symbol', columns='year', values='annual_return')
-
-# Select Box. 
+# 4 Select Box. 
 select_symbol = st.selectbox("Choose a stock for analysis:", symbols)
  
-# Displays
+ #################################### Info ###########################################
+
 website = symbls.loc[symbls['symbol'] == select_symbol, 'website'].values[0]
 sector = symbls.loc[symbls['symbol'] == select_symbol, 'sector'].values[0]
 industry = symbls.loc[symbls['symbol'] == select_symbol, 'industry'].values[0]
 summary = symbls.loc[symbls['symbol'] == select_symbol, 'longBusinessSummary'].values[0]
 
+##################################### Display ###########################################
 
 #Display Slect Box. 
 st.write(f"You selected: {select_symbol}")
@@ -53,7 +56,7 @@ st.markdown(f'Industry: {industry}')
 st.markdown(f'Information: {summary}')
 st.write("Check out their website [link](%s)" % website) # Difference between markdown and write. 
 
-############################################### Tab 1 ###########################################
+##################################### Tab 1 ###########################################
 
 st.subheader("Chart")
 def annual_return_plot(annual_returns, stock=select_symbol):
@@ -92,23 +95,4 @@ def annual_return_plot(annual_returns, stock=select_symbol):
 # Automatically update the chart when a different symbol is selected
 if select_symbol:
     annual_return_plot(annual_returns, stock=select_symbol)
-
-############################################### Tab 2 ############################################
-
-# Sidebar for year selection
-year = st.selectbox("Select a year for annual return performance", [2015,2016,2017,2018,2019,2020,2021,2022,2023,2024]) 
-
-# Sort by the selected year and get top 5
-top_df = pivoted_df.sort_values(by=year, ascending=False).head(5)
-top_df = top_df.reset_index()
-top_df.columns.name = None
-# Create a dictionary
-name_dict = dict(zip(extra['symbol'], extra['shortName']))
-top_df['shortName'] = top_df['symbol'].map(name_dict)
-top_df = top_df.rename(columns={
-    'symbol': 'Ticker',
-    'shortName':'Company'
-})
-
-# Display the top 5 table
-st.table(top_df[["Ticker",'Company', year]])
+    
