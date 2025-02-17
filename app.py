@@ -32,7 +32,9 @@ This comparison can help you understand the stock's growth relative to the marke
 # 5. Selectbox
 symbls = pd.read_csv('plan_yahoo/info_0_500.csv')
 annual_returns = pd.read_csv('plan_kaggle/annual_returns.csv')
+extra = pd.read_csv('plan_yahoo/extrainfo.csv')
 symbols = symbls['symbol'].unique()
+pivoted_df = annual_returns.pivot(index='symbol', columns='year', values='annual_return')
 
 # Select Box. 
 select_symbol = st.selectbox("Choose a stock for analysis:", symbols)
@@ -40,12 +42,14 @@ select_symbol = st.selectbox("Choose a stock for analysis:", symbols)
 # Displays
 website = symbls.loc[symbls['symbol'] == select_symbol, 'website'].values[0]
 sector = symbls.loc[symbls['symbol'] == select_symbol, 'sector'].values[0]
+industry = symbls.loc[symbls['symbol'] == select_symbol, 'industry'].values[0]
 summary = symbls.loc[symbls['symbol'] == select_symbol, 'longBusinessSummary'].values[0]
 
 
 #Display Slect Box. 
 st.write(f"You selected: {select_symbol}")
 st.write(f'Sector: {sector}')
+st.markdown(f'Industry: {industry}')
 st.markdown(f'Information: {summary}')
 st.write("Check out their website [link](%s)" % website) # Difference between markdown and write. 
 
@@ -89,7 +93,22 @@ def annual_return_plot(annual_returns, stock=select_symbol):
 if select_symbol:
     annual_return_plot(annual_returns, stock=select_symbol)
 
-# 8. Button
-if st.button("Click Me"):
-    st.write("Button clicked!")
+############################################### Tab 2 ############################################
 
+# Sidebar for year selection
+year = st.selectbox("Select a year for annual return performance", [2015,2016,2017,2018,2019,2020,2021,2022,2023,2024]) 
+
+# Sort by the selected year and get top 5
+top_df = pivoted_df.sort_values(by=year, ascending=False).head(5)
+top_df = top_df.reset_index()
+top_df.columns.name = None
+# Create a dictionary
+name_dict = dict(zip(extra['symbol'], extra['shortName']))
+top_df['shortName'] = top_df['symbol'].map(name_dict)
+top_df = top_df.rename(columns={
+    'symbol': 'Ticker',
+    'shortName':'Company'
+})
+
+# Display the top 5 table
+st.table(top_df[["Ticker",'Company', year]])
