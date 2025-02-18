@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from utils import load_prices
+from utils import load_average_return
 
 ############################################# PAGE SETUP ###########################################
 
@@ -21,6 +22,7 @@ extra = pd.read_csv('plan_yahoo/extrainfo.csv')
 symbols = symbls['symbol'].unique()
 pivoted_df = annual_returns.pivot(index='symbol', columns='year', values='annual_return')
 prices_df = load_prices()
+average_df = load_average_return()
 
 ############################################# USER INPUTS ###########################################
 
@@ -37,26 +39,35 @@ You can select any stock from the S&P 500 and see how its performance compares t
 This comparison can help you understand the stock's growth relative to the market and decide if it's outperforming the index!
 """)
 
- #################################### METRIC CARDS ###########################################
-
-#FINISH TOMORROW
-
-col1, col2, col3 = st.columns(3)
-
-st.metric("Metric Name", 42, 2)
-
-
-  #################################### Info ###########################################
+##################################### Info ###########################################
 
 # 4 Select Box. 
 select_symbol = st.selectbox("Choose a stock for analysis:", symbols)
  
- #################################### Info ###########################################
+ #################################### Info ############################################
+
 
 website = symbls.loc[symbls['symbol'] == select_symbol, 'website'].values[0]
 sector = symbls.loc[symbls['symbol'] == select_symbol, 'sector'].values[0]
 industry = symbls.loc[symbls['symbol'] == select_symbol, 'industry'].values[0]
 summary = symbls.loc[symbls['symbol'] == select_symbol, 'longBusinessSummary'].values[0]
+current_price = extra.loc[extra['symbol'] == select_symbol, 'regularMarketPrice'].values[0]
+average_return = average_df.loc[average_df['symbol'] == select_symbol, 'average_return'].values[0]
+average_return_SP500 = average_df.loc[average_df['symbol'] == "SP500", 'average_return'].values[0]
+ ################################ METRIC CARDS ###########################################
+
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.metric("Stock Price", f"{current_price}$")
+
+with col2: 
+    st.metric("10-Year Average Return", f"{average_return * 100:.2f}%")
+
+with col3: 
+    st.metric("SP500 10-Year Average Return", f"{average_return_SP500 * 100:.2f}%")
+
 
 ##################################### Display ###########################################
 
