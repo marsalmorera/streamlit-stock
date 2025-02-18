@@ -56,6 +56,7 @@ average_return = average_df.loc[average_df['symbol'] == select_symbol, 'average_
 average_return_SP500 = average_df.loc[average_df['symbol'] == "SP500", 'average_return'].values[0]
  ################################ METRIC CARDS ###########################################
 
+return_difference = average_return - average_return_SP500
 
 col1, col2, col3 = st.columns(3)
 
@@ -63,19 +64,20 @@ with col1:
     st.metric("Stock Price", f"{current_price}$")
 
 with col2: 
-    st.metric("10-Year Average Return", f"{average_return * 100:.2f}%")
+    st.metric("10-Year Return", f"{average_return * 100:.2f}%",delta=f"{return_difference * 100:.2f}%")
 
 with col3: 
-    st.metric("SP500 10-Year Average Return", f"{average_return_SP500 * 100:.2f}%")
+    st.metric("SP500 10-Year Return", f"{average_return_SP500 * 100:.2f}%")
 
 
 ##################################### Display ###########################################
 
 #Display Slect Box. 
-st.write(f"You selected: {select_symbol}")
+st.write(f"You selected: {select_symbol}") # Poner nombre. 
 st.write(f'Sector: {sector}')
 st.markdown(f'Industry: {industry}')
-st.markdown(f'Information: {summary}')
+with st.expander("See Information"):
+    st.markdown(f'Information: {summary}')
 st.write("Check out their website [link](%s)" % website) # Difference between markdown and write. 
 
 ##################################### Tab 1 ###########################################

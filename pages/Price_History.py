@@ -23,5 +23,10 @@ stock_selection = st.multiselect("Choose a stock for analysis:", symbols, defaul
 filtered_df = prices_df[prices_df['symbol'].isin(stock_selection)]
 
 # Display the line chart of historical prices
-st.line_chart(filtered_df.pivot(index='timestamps', columns='symbol', values='price'))
+st.line_chart(
+    filtered_df,
+    x="timestamps",
+    y="price",
+    color="symbol"
+)
 
