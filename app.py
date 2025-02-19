@@ -17,7 +17,7 @@ st.set_page_config(
 ############################################# DATA LOAD #############################################
 
 symbls = pd.read_csv('plan_yahoo/info_0_500.csv')
-annual_returns = pd.read_csv('plan_kaggle/annual_returns.csv')
+annual_returns = pd.read_csv('plan_kaggle/annual_returns1.csv')
 extra = pd.read_csv('plan_yahoo/extrainfo.csv')
 symbols = symbls['symbol'].unique()
 pivoted_df = annual_returns.pivot(index='symbol', columns='year', values='annual_return')
@@ -46,7 +46,7 @@ select_symbol = st.selectbox("Choose a stock for analysis:", symbols)
  
  #################################### Info ############################################
 
-
+name_symbol = extra.loc[extra['symbol'] == select_symbol, 'shortName'].values[0]
 website = symbls.loc[symbls['symbol'] == select_symbol, 'website'].values[0]
 sector = symbls.loc[symbls['symbol'] == select_symbol, 'sector'].values[0]
 industry = symbls.loc[symbls['symbol'] == select_symbol, 'industry'].values[0]
@@ -54,6 +54,7 @@ summary = symbls.loc[symbls['symbol'] == select_symbol, 'longBusinessSummary'].v
 current_price = extra.loc[extra['symbol'] == select_symbol, 'regularMarketPrice'].values[0]
 average_return = average_df.loc[average_df['symbol'] == select_symbol, 'average_return'].values[0]
 average_return_SP500 = average_df.loc[average_df['symbol'] == "SP500", 'average_return'].values[0]
+
  ################################ METRIC CARDS ###########################################
 
 return_difference = average_return - average_return_SP500
@@ -71,11 +72,10 @@ with col3:
 
 
 ##################################### Display ###########################################
-
+st.write("") 
 #Display Slect Box. 
-st.write(f"You selected: {select_symbol}") # Poner nombre. 
-st.write(f'Sector: {sector}')
-st.markdown(f'Industry: {industry}')
+st.markdown(f'You have chosen **{name_symbol}**, a company in the **{sector}** sector, with **{industry}** as its primary industry.')
+
 with st.expander("See Information"):
     st.markdown(f'Information: {summary}')
 st.write("Check out their website [link](%s)" % website) # Difference between markdown and write. 
