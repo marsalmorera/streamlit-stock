@@ -6,7 +6,7 @@ from utils import load_prices
 
 ########################################## PAGE SETUP ###########################################
 
-st.title('Deep Finder 2024')
+st.title('Deep Finder')
 
 ########################################## DATA LOAD #############################################
 
@@ -19,6 +19,12 @@ symbols = symbls['symbol'].unique()
 prices_df = load_prices()
 
 ############################################# INFO DISPLAY #############################################
+
+st.markdown("""
+Select the stocks you want and instantly see their annual return during 2024.
+Compare multiple stocks side by side to gain insights into their performance over the past year. 
+A simple and powerful way to track and analyze stock returns! 🚀
+""")
 
 
 # Select stock(s) using the multiselect box

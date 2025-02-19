@@ -15,6 +15,11 @@ prices_df = load_prices()
 
 ############################################# INFO DISPLAY #############################################
 
+st.markdown("""
+Track the historical performance of your favorite stocks! Select multiple stocks to view their price history over time. 
+This feature helps you analyze trends, compare different stocks, and make informed decisions based on past market behavior.
+""")
+
 # Select a stock using the select box
 
 stock_selection = st.multiselect("Choose a stock for analysis:", symbols, default=['AAPL', 'MSFT']) # Add more colors for display.

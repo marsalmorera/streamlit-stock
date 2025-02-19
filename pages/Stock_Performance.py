@@ -16,9 +16,14 @@ pivoted_df = annual_returns.pivot(index='symbol', columns='year', values='annual
 
 ######################################  DISPLAY TOP 10 #############################################
 
+st.markdown("""
+Explore the top-performing and worst stocks based annual return and historical data. 
+Select a year to view the top 5 best-performing and worst-performing stocks for that period. 
+This allows you to analyze market trends and gain insights into stock performance over time.
+""")
 
 # Sidebar for year selection
-year = st.selectbox("Select a year for annual return performance", [2015,2016,2017,2018,2019,2020,2021,2022,2023,2024]) 
+year = st.selectbox("Select a year for annual return performance", [2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024]) 
 
 #Title
 st.subheader("Top 5 Stock Performance")
@@ -89,7 +94,7 @@ chart = (
         ),
         tooltip=["Ticker", "Company", "Annual Return"]
     )
-    .properties(title=f"Top & Worst 5 Stocks in {year} Bar Chart")
+    .properties(title=f"Top & Worst 5 Stocks in {year}")
 )
 
 # Display the chart
