@@ -25,6 +25,14 @@ This project is a Streamlit web application that allows users to compare stock p
 - **Pandas** and **Numpy** for data manipulation.
 - **Matplotlib** and **Plotly** for visualizations.
 
+## Streamlit App 
+
+<img width="870" alt="Captura de pantalla 2025-02-20 a les 8 37 41" src="https://github.com/user-attachments/assets/2d4567a6-18f7-4376-b232-fbe0acc1c821" />
+<img width="840" alt="Captura de pantalla 2025-02-20 a les 8 38 15" src="https://github.com/user-attachments/assets/7fcf012b-e8fc-40ba-b682-7d63fa62d443" />
+<img width="832" alt="Captura de pantalla 2025-02-20 a les 8 38 29" src="https://github.com/user-attachments/assets/fd472b5c-12f4-4fad-bcea-33e667c9fa9c" />
+
+
+
 ## Contributing
 
 Feel free to open issues or submit pull requests for enhancements and bug fixes.
